@@ -1,6 +1,24 @@
 #include <Wire.h>
 #include <Adafruit_NeoPixel.h>
 
+struct LedMode {
+  
+  //Strip intensity, from 0-255
+  int intensity;
+  
+  //Packed RGB color integer
+  uint32_t color;
+  
+  //Specific identifier corresponding to a strip effect
+  int effect;  
+};
+
+/*   Global variable to store LED strip state
+*    Will be set upon pertinent I2C message recieval, and 
+*    is used in loop() to set the strip values */
+LedMode stripMode;
+
+//Robot LED strip
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(180, 6, NEO_GRB + NEO_KHZ800);
 
 void setup() {
@@ -41,7 +59,6 @@ void i2cRecieved(int bitsRecieved) {
     digitalWrite(13, HIGH);
     
     delay(900);
-
   }
   
   Serial.println();
@@ -56,21 +73,10 @@ void i2cRecieved(int bitsRecieved) {
 
 
 //Set all lights in Adafruit_NeoPixel array to same color
-void SetStrip(Adafruit_NeoPixel &pixelStrip, int red, int green, int blue) {
+void SetStrip(Adafruit_NeoPixel &pixelStrip, uint32_t color) {
 
     for (int i = 0; i < pixelStrip.numPixels(); i++) {
-        pixelStrip.setPixelColor(i, red, green, blue);
-    }
-    pixelStrip.show();
-}
-
-//Set a section of lights in Adafruit_NeoPixel array to same color
-void SetSegment(Adafruit_NeoPixel &pixelStrip, int startLed, int endLed,
-    int red, int green, int blue) {
-
-      
-    for (int i = 0; i < endLed; i++) {
-        pixelStrip.setPixelColor(i, red, green, blue);
+        pixelStrip.setPixelColor(i, color);
     }
     pixelStrip.show();
 }
