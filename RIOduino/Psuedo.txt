@@ -10,7 +10,7 @@ Arduino IDE Program
     Wire.onReceive(
         Read data from I2C bus and assign it to ledMode object
     )
-    
+
     LEDStrip Class
         Extends NEOPixels
         Relies on each effect method to be run continuously, and checks time between calls to determine how to set lights
@@ -60,9 +60,9 @@ I2C Comm
             102 = Slow Pulse
             103 = Fast Pulse
             //Chase lights down strip with intesity and color from message
-            200 = Single Light Chase
+            200 = Simple Chase
             201 = Chase with Tail
-            202 = Smooth Single Light Chase
+            202 = Smooth Simple Chase
             203 = Smooth Chase with Tail
             //Cycle through rainbow colors with intensity from message
             300 = Blink Rainbow
