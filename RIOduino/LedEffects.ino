@@ -1,7 +1,5 @@
 #include <Adafruit_NeoPixel.h>
 
-//Set a single light to a color
-void setLight(int led, uint32_t color);
 //Blink all lights in strip with same color
 void pulseStrip(int delay, bool fade, uint32_t color);
 //Chase lights down led strip
