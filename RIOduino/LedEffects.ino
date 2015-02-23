@@ -1,5 +1,10 @@
 #include <Adafruit_NeoPixel.h>
 
+/*  Defines a constant used in all effect functions that 
+*   controls how quickly the LED strip will update throughout
+*   an effect's playback */
+const int effectResolutionInMs = 5;
+
 //Blink all lights in strip with same color
 void pulseStrip(int delay, bool fade, uint32_t color);
 //Chase lights down led strip
@@ -10,6 +15,24 @@ void rainbow(int delay, bool fade);
 void rainbowChase(int delay, int tailLength, bool fade);
 //Send random colors to each light
 void randomLights(int delay, bool fade);
+
+//Blink all of the lights in the strip
+void pulseStrip(Adafruit_NeoPixel &pixelStrip, int duration, bool fade, uint32_t color) {
+  
+  //Begin looping through one iteration of the effect
+  for (int i = 0; i < duration; duration += effectResolutionInMs, delay(effectResolutionInMs)) {
+    //Calculate progress through the effect and store it as a proportion
+    float effectProportionComplete = i / duration;
+    //Map current progress in effect to an intensity value
+    currentIntensity = mapToWave(effectProportionComplete) * 255;
+    //If fade mode is off, set the intensity to either on or off
+    if (!fade) {
+      currentIntensity = currentIntensity > (255 / 2) ? 200 : 0;
+    }
+    //Set the strip for this iteration of the effect
+    setStrip(pixelStrip, currentIntensity, color);
+  }
+}
 
 //Set all lights in Adafruit_NeoPixel array to same color
 void setStrip(Adafruit_NeoPixel &pixelStrip, int intensity, uint32_t color) {
