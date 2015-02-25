@@ -65,9 +65,8 @@ I2C Comm
             202 = Smooth Simple Chase
             203 = Smooth Chase with Tail
             //Cycle through rainbow colors with intensity from message
-            300 = Blink Rainbow
-            301 = Smooth Rainbow
-            302 = Smooth Rainbow Chase
+            300 = Rainbow
+            301 = Rainbow Chase
             //Randomly choose color and/or intensity values for individual lights,
             //and obtain necessary values from message
             400 = Blink Full Random
