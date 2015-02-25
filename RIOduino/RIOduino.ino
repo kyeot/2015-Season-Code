@@ -79,7 +79,7 @@ void setup() {
 
 void loop() {
   
-  switch(stripMode.effect) {
+  /*switch(stripMode.effect) {
     case STATIC_COLOR:
       setStrip(strip, stripMode.intensity, stripMode.color);
       Serial.println("Static color");
@@ -88,7 +88,11 @@ void loop() {
       Serial.println("Other effect");
       break;
     
-  }
+  } */
+  
+  //Pulse the strip in KYEOT fashion!
+  pulseStrip(strip, 1500, true, strip.Color(35, 0, 250));
+  pulseStrip(strip, 1500, true, strip.Color(250, 0, 0));
 }
 
 void i2cReceived(int bitsReceived) {

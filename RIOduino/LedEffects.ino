@@ -3,7 +3,7 @@
 /*  Defines a constant used in all effect functions that 
 *   controls how quickly the LED strip will update throughout
 *   an effect's playback */
-const int effectResolutionInMs = 5;
+const int effectResolutionInMs = 10;
 
 //Blink all lights in strip with same color
 void pulseStrip(int delay, bool fade, uint32_t color);
@@ -19,18 +19,22 @@ void randomLights(int delay, bool fade);
 //Blink all of the lights in the strip
 void pulseStrip(Adafruit_NeoPixel &pixelStrip, int duration, bool fade, uint32_t color) {
   
-  //Begin looping through one iteration of the effect
-  for (int i = 0; i < duration; duration += effectResolutionInMs, delay(effectResolutionInMs)) {
+  /*  Begin looping through one iteration of the effect, and
+  *   declar a time-tracking incremement variable */
+  for (int time = 0; time < duration; time += effectResolutionInMs) {
     //Calculate progress through the effect and store it as a proportion
-    float effectProportionComplete = i / duration;
-    //Map current progress in effect to an intensity value
-    currentIntensity = mapToWave(effectProportionComplete) * 255;
-    //If fade mode is off, set the intensity to either on or off
+    float effectProportionComplete = (float)time / (float)duration;
+    //Map current progress in effect to a sine wave, then an intensity value
+    int currentIntensity = mapToWave(effectProportionComplete) * 255;
+    /*  If fade mode is off, set the intensity to either 
+    *   on or off based off effect progress */
     if (!fade) {
       currentIntensity = currentIntensity > (255 / 2) ? 200 : 0;
     }
-    //Set the strip for this iteration of the effect
+    //Set the strip's state for this iteration of the effect
     setStrip(pixelStrip, currentIntensity, color);
+    //Delay until the effect needs updating again
+    delay(effectResolutionInMs);
   }
 }
 
