@@ -91,8 +91,9 @@ void loop() {
   } */
   
   //Pulse the strip in KYEOT fashion!
-  pulseStrip(strip, 1500, true, strip.Color(35, 0, 250));
-  pulseStrip(strip, 1500, true, strip.Color(250, 0, 0));
+  //pulseStrip(strip, 1500, true, strip.Color(35, 0, 250));
+  //pulseStrip(strip, 1500, true, strip.Color(250, 0, 0));
+  rainbow(strip, 3000);
 }
 
 void i2cReceived(int bitsReceived) {

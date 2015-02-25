@@ -3,24 +3,13 @@
 /*  Defines a constant used in all effect functions that 
 *   controls how quickly the LED strip will update throughout
 *   an effect's playback */
-const int effectResolutionInMs = 10;
-
-//Blink all lights in strip with same color
-void pulseStrip(int delay, bool fade, uint32_t color);
-//Chase lights down led strip
-void simpleChase(int delay, int tailLength, bool fade, uint32_t color);
-//Rainbow pattern across all lights
-void rainbow(int delay, bool fade);
-//Cycle rainbow light colors throuhgout chase
-void rainbowChase(int delay, int tailLength, bool fade);
-//Send random colors to each light
-void randomLights(int delay, bool fade);
+const int effectResolutionInMs = 30;
 
 //Blink all of the lights in the strip
 void pulseStrip(Adafruit_NeoPixel &pixelStrip, int duration, bool fade, uint32_t color) {
   
   /*  Begin looping through one iteration of the effect, and
-  *   declar a time-tracking incremement variable */
+  *   declare a time-tracking incremement variable */
   for (int time = 0; time < duration; time += effectResolutionInMs) {
     //Calculate progress through the effect and store it as a proportion
     float effectProportionComplete = (float)time / (float)duration;
@@ -38,6 +27,38 @@ void pulseStrip(Adafruit_NeoPixel &pixelStrip, int duration, bool fade, uint32_t
   }
 }
 
+//Chase lights down led strip
+void simpleChase(Adafruit_NeoPixel &pixelStrip, int duration, int tailLength, bool fade, uint32_t color) {
+  
+}
+
+//Rainbow pattern across all lights
+void rainbow(Adafruit_NeoPixel &pixelStrip, int duration) {
+  
+  /*  Begin looping through one iteration of the effect, and
+  *   declare a time-tracking incremement variable */
+  for (int time = 0; time < duration; time += effectResolutionInMs) {
+    //Calculate progress through the effect and store it as a proportion
+    float effectProportionComplete = (float)time / (float)duration;
+    //Map current progress in effect to a color value
+    uint32_t currentColor = colorSpectrum(effectProportionComplete);
+    //Set the strip's state for this iteration of the effect
+    setStrip(pixelStrip, 200, currentColor);
+    //Delay until the effect needs updating again
+    delay(effectResolutionInMs);
+  }
+}
+
+//Cycle rainbow light colors throuhgout chase
+void rainbowChase(Adafruit_NeoPixel &pixelStrip, int delay, int tailLength, bool fade) {
+  
+}
+
+//Send random colors to each light
+void randomLights(Adafruit_NeoPixel &pixelStrip, int delay, bool fade) {
+  
+} 
+
 //Set all lights in Adafruit_NeoPixel array to same color
 void setStrip(Adafruit_NeoPixel &pixelStrip, int intensity, uint32_t color) {
   
@@ -49,7 +70,12 @@ void setStrip(Adafruit_NeoPixel &pixelStrip, int intensity, uint32_t color) {
 }
 
 /*  Takes a value from 0 to 1 and returns a color corresponding
-*   to the input value's position along a color spectrum. */
+*   to the input value's position along a color spectrum. 
+*   Input = 0,     Output = 16711680 (Red)
+*   Input = 0.25,  Output = 4373760 (Green)
+*   Input = 0.5,   Output = 33150 (Blue)
+*   Input = 0.75,  Output = 4128960 (Purple)
+*   Input = 1,     Output = 16711680 (Red) */
 uint32_t colorSpectrum(float proportion) {
   
   //Convert the proportion into a byte, between 0-255
