@@ -2,6 +2,11 @@
 <Project Type="Project" LVVersion="14008000">
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
 	<Property Name="NI.Project.Description" Type="Str"></Property>
+	<Property Name="varPersistentID:{2235D071-C351-48DD-8612-CF272B1D55D2}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/set</Property>
+	<Property Name="varPersistentID:{88CC6361-4F5D-467D-A753-FAA6DE52C641}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/error in</Property>
+	<Property Name="varPersistentID:{8B7C1F22-EEFB-43B7-8654-9BFD3CDD13AE}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/output</Property>
+	<Property Name="varPersistentID:{BE460E3F-C519-443B-BE94-832C498B680F}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/error out</Property>
+	<Property Name="varPersistentID:{F330A5A9-BDD9-4B30-84BF-40F13E859122}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/reset</Property>
 	<Item Name="My Computer" Type="My Computer">
 		<Property Name="NI.SortType" Type="Int">3</Property>
 		<Property Name="server.app.propertiesEnabled" Type="Bool">true</Property>
@@ -127,7 +132,15 @@ AddOutputFilter chunkFilter
 			<Item Name="Finish.vi" Type="VI" URL="../Finish.vi"/>
 			<Item Name="Periodic Tasks.vi" Type="VI" URL="../Periodic Tasks.vi"/>
 			<Item Name="Robot Global Data.vi" Type="VI" URL="../Robot Global Data.vi"/>
-			<Item Name="Teleop.vi" Type="VI" URL="../Teleop.vi"/>
+			<Item Name="Teleop.vi" Type="VI" URL="../Teleop.vi">
+				<Item Name="SR Bistable" Type="IIO Function Block">
+					<Item Name="error in" Type="Variable"/>
+					<Item Name="error out" Type="Variable"/>
+					<Item Name="output" Type="Variable"/>
+					<Item Name="reset" Type="Variable"/>
+					<Item Name="set" Type="Variable"/>
+				</Item>
+			</Item>
 			<Item Name="Test.vi" Type="VI" URL="../Test.vi"/>
 			<Item Name="Vision Processing.vi" Type="VI" URL="../Vision Processing.vi"/>
 		</Item>
@@ -333,6 +346,14 @@ AddOutputFilter chunkFilter
 				<Item Name="roboRIO_FPGA_2015_1.0.10.lvbitx" Type="Document" URL="/&lt;vilib&gt;/Rock Robotics/SystemInterfaces/roboRIO_FPGA_2015_1.0.10.lvbitx"/>
 				<Item Name="ROI Descriptor" Type="VI" URL="/&lt;vilib&gt;/vision/Image Controls.llb/ROI Descriptor"/>
 				<Item Name="Safe Image Get Image.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/Camera/USB Support/Safe Image Get Image.vi"/>
+				<Item Name="SD Read Boolean Array.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Read Boolean Array.vi"/>
+				<Item Name="SD Read Boolean.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Read Boolean.vi"/>
+				<Item Name="SD Read Name Cache.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Read Name Cache.vi"/>
+				<Item Name="SD Read Number.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Read Number.vi"/>
+				<Item Name="SD Read Numeric Array.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Read Numeric Array.vi"/>
+				<Item Name="SD Read String Array.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Read String Array.vi"/>
+				<Item Name="SD Read String.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Read String.vi"/>
+				<Item Name="SD Read Value.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Read Value.vi"/>
 				<Item Name="SD Write Boolean Array.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Write Boolean Array.vi"/>
 				<Item Name="SD Write Boolean.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Write Boolean.vi"/>
 				<Item Name="SD Write Name Cache.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/SD Write Name Cache.vi"/>
@@ -700,6 +721,7 @@ AddOutputFilter chunkFilter
 			<Item Name="nivissvc.dll" Type="Document" URL="nivissvc.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
+			<Item Name="Rising Edge Detect.vi" Type="VI" URL="../Utilities/Rising Edge Detect.vi"/>
 			<Item Name="Rotate.vi" Type="VI" URL="../Vision Utilities/Rotate.vi"/>
 			<Item Name="Slide.vi" Type="VI" URL="../Vision Utilities/Slide.vi"/>
 			<Item Name="Vision VI.vi" Type="VI" URL="../Vision Utilities/Vision VI.vi"/>
