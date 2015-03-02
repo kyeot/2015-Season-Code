@@ -1,12 +1,14 @@
 #include <Adafruit_NeoPixel.h>
 
+#include "LedControl.h"
+
 /*  Defines a constant used in all effect functions that 
 *   controls how quickly the LED strip will update throughout
 *   an effect's playback */
 const int effectResolutionInMs = 30;
 
 //Blink all of the lights in the strip
-void pulseStrip(Adafruit_NeoPixel &pixelStrip, int duration, bool fade, uint32_t color) {
+void pulseStrip(Adafruit_NeoPixel &pixelStrip, int duration, bool fade, RGB color) {
   
   /*  Begin looping through one iteration of the effect, and
   *   declare a time-tracking incremement variable */
@@ -28,8 +30,31 @@ void pulseStrip(Adafruit_NeoPixel &pixelStrip, int duration, bool fade, uint32_t
 }
 
 //Chase lights down led strip
-void simpleChase(Adafruit_NeoPixel &pixelStrip, int duration, int tailLength, bool fade, uint32_t color) {
+void simpleChase(Adafruit_NeoPixel &pixelStrip, int duration, int tailLength, RGB color) {
   
+  //Iterate through one cycle of the chase
+  for (int time = 0; time < duration; time += effectResolutionInMs) {
+    
+    //Calculate progress through the effect and store it as a proportion
+    float effectProportionComplete = (float)time / (float)duration;
+    //Set the currently lit LED based on effect progress
+    int currentLed = effectProportionComplete * strip.numPixels();
+
+    //Set all lights off
+    for (int i = 0; i < pixelStrip.numPixels(); i++) {
+      pixelStrip.setPixelColor(i, 0);
+    }
+    //Set the tail behind the current Led
+    for (int i = currentLed; i < (currentLed + tailLength); i++) { 
+      uint32_t packedColor = pixelStrip.Color(color.red, color.green, color.blue);
+      pixelStrip.setPixelColor(i, packedColor);
+    }
+    //Light the strip
+    pixelStrip.setBrightness(200);
+    pixelStrip.show();
+    
+    delay(effectResolutionInMs);
+  }
 }
 
 //Rainbow pattern across all lights
@@ -49,24 +74,22 @@ void rainbow(Adafruit_NeoPixel &pixelStrip, int duration) {
   }
 }
 
-//Cycle rainbow light colors throuhgout chase
-void rainbowChase(Adafruit_NeoPixel &pixelStrip, int delay, int tailLength, bool fade) {
+//Set all lights in Adafruit_NeoPixel array to same color
+void setStrip(Adafruit_NeoPixel &pixelStrip, int intensity, RGB color) {
   
+  uint32_t packedColor = pixelStrip.Color(color.red, color.green, color.blue);
+  
+  setStrip(pixelStrip, intensity, packedColor);
 }
-
-//Send random colors to each light
-void randomLights(Adafruit_NeoPixel &pixelStrip, int delay, bool fade) {
-  
-} 
 
 //Set all lights in Adafruit_NeoPixel array to same color
 void setStrip(Adafruit_NeoPixel &pixelStrip, int intensity, uint32_t color) {
-  
-    for (int i = 0; i < pixelStrip.numPixels(); i++) {
-        pixelStrip.setPixelColor(i, color);
-    }
-    pixelStrip.setBrightness(intensity);
-    pixelStrip.show();
+    
+  for (int i = 0; i < pixelStrip.numPixels(); i++) {
+      pixelStrip.setPixelColor(i, color);
+  }
+  pixelStrip.setBrightness(intensity);
+  pixelStrip.show();
 }
 
 /*  Takes a value from 0 to 1 and returns a color corresponding

@@ -1,6 +1,8 @@
 #include <Wire.h>
 #include <Adafruit_NeoPixel.h>
 
+#include "LedControl.h"
+
 /***********************************
 ******** Definitions ***************
 ***********************************/
@@ -17,26 +19,16 @@ enum LedEffect {
   
   SIMPLE_CHASE = 200, 
   CHASE_WITH_TAIL = 201, 
-  SMOOTH_SIMPLE_CHASE = 202, 
-  SMOOTH_CHASE_WITH_TAIL = 203, 
   
-  RAINBOW = 300, 
-  RAINBOW_CHASE = 301, 
-  
-  BLINK_FULL_RANDOM = 400, 
-  FADE_FULL_RANDOM = 401, 
-  BLINK_RANDOM_INTENSITY = 402, 
-  FADE_RANDOM_INTENSITY = 403, 
-  BLINK_RANDOM_COLOR = 404, 
-  FADE_RANDOM_COLOR = 405
+  RAINBOW = 300
 };
 
 //A data struct to hold the current status of the attached LED strip
 struct LedMode {
   //Strip intensity, from 0-255
   int intensity;
-  //Packed RGB color integer
-  uint32_t color;
+  //RGB color struct
+  RGB color;
   //Specific identifier corresponding to a strip effect
   LedEffect effect;  
 };
@@ -89,9 +81,15 @@ void loop() {
     
   } */
   
+  RGB blue = {35, 0, 250};
+  RGB red = {250, 0, 0};
+  
   //Pulse the strip in KYEOT fashion!
-  //pulseStrip(strip, 1500, true, strip.Color(35, 0, 250));
-  //pulseStrip(strip, 1500, true, strip.Color(250, 0, 0));
+  pulseStrip(strip, 1500, true, blue);
+  pulseStrip(strip, 1500, true, red);
+  rainbow(strip, 3000);
+  simpleChase(strip, 6000, 7, blue);
+  simpleChase(strip, 6000, 7, red);
   rainbow(strip, 3000);
 }
 
@@ -100,21 +98,28 @@ void i2cReceived(int bitsReceived) {
   /* Read the initial byte from the message and 
   *  store it as the register bit */
   int registerId = Wire.read();
-  Serial.println(registerId);
+  Serial.println("Register: " + registerId);
   
   /* If the register byte is 42, extract LED data 
   *  and assign it to the ledMode global */
   if (registerId == 42) {
-    int intensity = Wire.read();
-    Serial.println(intensity);
+    /*int intensity = Wire.read();
+    Serial.println("Intensity: " + intensity);
     int color = Wire.read();
-    Serial.println(color);
+    Serial.println("Color: " + color);
     int effect = Wire.read();
-    Serial.println(effect);
+    Serial.println("Effect: " + effect);
     
     stripMode.intensity = intensity;
     stripMode.color = color;
-    stripMode.effect = static_cast<LedEffect>(effect);
+    stripMode.effect = static_cast<LedEffect>(effect);*/
+    
+    while(Wire.available()) {
+      char recievedByte = Wire.read();
+      Serial.print(" ");
+      Serial.print(recievedByte);
+      Serial.print(" ");
+    }
   }
   
   Serial.println();
