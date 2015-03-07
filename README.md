@@ -7,7 +7,7 @@ FIRST FRC team 2783's Recycle Rush 2015 season code.
 *Controllable via primary Microsoft Xbox Joystick for PC*
 * Move forwards, backwards, and laterally with the left stick
 * Rotate about central axis via horizontal movement on the right stick
-* Hold down on the right bumper to engage fine control drive mode
+* Hold down on the "A" button to engage fine control drive mode
 
 ## Manipulator Control
 *Controllable via secondary Microsoft Xbox Joystick for PC*
