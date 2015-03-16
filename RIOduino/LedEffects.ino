@@ -74,7 +74,7 @@ void rainbow(Adafruit_NeoPixel &pixelStrip, int duration) {
   }
 }
 
-//Set all lights in Adafruit_NeoPixel array to same color
+//Set all lights in Adafruit_NeoPixel array to same color and intensity
 void setStrip(Adafruit_NeoPixel &pixelStrip, int intensity, RGB color) {
   
   uint32_t packedColor = pixelStrip.Color(color.red, color.green, color.blue);
@@ -82,11 +82,29 @@ void setStrip(Adafruit_NeoPixel &pixelStrip, int intensity, RGB color) {
   setStrip(pixelStrip, intensity, packedColor);
 }
 
-//Set all lights in Adafruit_NeoPixel array to same color
+//Set all lights in Adafruit_NeoPixel array to same color and intensity
 void setStrip(Adafruit_NeoPixel &pixelStrip, int intensity, uint32_t color) {
     
   for (int i = 0; i < pixelStrip.numPixels(); i++) {
       pixelStrip.setPixelColor(i, color);
+  }
+  pixelStrip.setBrightness(intensity);
+  pixelStrip.show();
+}
+
+//Set a range of lights to the same color and intensity
+void setSegment(Adafruit_NeoPixel &pixelStrip, int intensity, RGB color, int startPixel, int endPixel) {
+  
+  uint32_t packedColor = pixelStrip.Color(color.red, color.green, color.blue);
+  
+  setSegment(pixelStrip, intensity, packedColor, startPixel, endPixel);
+}
+
+//Set a range of lights to the same color and intensity
+void setSegment(Adafruit_NeoPixel &pixelStrip, int intensity, uint32_t color, int startPixel, int endPixel) {
+  
+  for (int i = startPixel; i < (endPixel + 1); i++) {
+    pixelStrip.setPixelColor(i, color);
   }
   pixelStrip.setBrightness(intensity);
   pixelStrip.show();
