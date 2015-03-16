@@ -30,7 +30,7 @@ struct LedMode {
   //RGB color struct
   RGB color;
   //Specific identifier corresponding to a strip effect
-  LedEffect effect;  
+  LedEffect effect;
 };
 
 /***********************************
@@ -54,9 +54,6 @@ void setup() {
   //Set up I2C slave device on address 84
   Wire.begin(84);
   Wire.onReceive(i2cReceived);
-  
-  //Set up Serial communication for debugging output
-  Serial.begin(9600);
 
   //Set up LED strip and initiate communication
   strip.begin();
@@ -70,57 +67,92 @@ void setup() {
 
 void loop() {
   
-  /*switch(stripMode.effect) {
+  switch(stripMode.effect) {
     case STATIC_COLOR:
       setStrip(strip, stripMode.intensity, stripMode.color);
-      Serial.println("Static color");
+      break;
+    case SLOW_BLINK:
+      pulseStrip(strip, 1000, false, stripMode.color);
+      break;
+    case FAST_BLINK:
+      pulseStrip(strip, 400, false, stripMode.color);
+      break;
+    case SLOW_PULSE:
+      pulseStrip(strip, 4000, true, stripMode.color);
+      break;
+    case FAST_PULSE:
+      pulseStrip(strip, 1000, true, stripMode.color);
+      break;
+    case SIMPLE_CHASE:
+      simpleChase(strip, 3000, 1, stripMode.color);
+      break;
+    case CHASE_WITH_TAIL:
+      simpleChase(strip, 3000, 7, stripMode.color);
+      break;
+    case RAINBOW:
+      rainbow(strip, 4000);
       break;
     default:
-      Serial.println("Other effect");
       break;
-    
-  } */
-  
-  RGB blue = {35, 0, 250};
-  RGB red = {250, 0, 0};
-  
-  //Pulse the strip in KYEOT fashion!
-  pulseStrip(strip, 1500, true, blue);
-  pulseStrip(strip, 1500, true, red);
-  rainbow(strip, 3000);
-  simpleChase(strip, 6000, 7, blue);
-  simpleChase(strip, 6000, 7, red);
-  rainbow(strip, 3000);
+  } 
 }
 
 void i2cReceived(int bitsReceived) {
   
+  digitalWrite(13, HIGH);;
+  
   /* Read the initial byte from the message and 
   *  store it as the register bit */
   int registerId = Wire.read();
-  Serial.println("Register: " + registerId);
+  //Serial.println(registerId);
   
   /* If the register byte is 42, extract LED data 
   *  and assign it to the ledMode global */
   if (registerId == 42) {
-    /*int intensity = Wire.read();
-    Serial.println("Intensity: " + intensity);
-    int color = Wire.read();
-    Serial.println("Color: " + color);
-    int effect = Wire.read();
-    Serial.println("Effect: " + effect);
+ 
+    int integerCount = 0;
+    char* recievedChars = new char[Wire.available()+1];
+    int recievedCharsLength = 0;
     
-    stripMode.intensity = intensity;
-    stripMode.color = color;
-    stripMode.effect = static_cast<LedEffect>(effect);*/
-    
+    RGB recievedRgb = {0, 0, 0};
+        
     while(Wire.available()) {
       char recievedByte = Wire.read();
-      Serial.print(" ");
-      Serial.print(recievedByte);
-      Serial.print(" ");
-    }
+      
+      recievedChars[recievedCharsLength] = recievedByte;
+      recievedCharsLength++;
+            
+      if (recievedByte == *";") {
+        integerCount++;
+        
+        int recievedInt = atoi(recievedChars);
+        
+        switch (integerCount) {
+          case 1:
+            stripMode.intensity = recievedInt;
+            break;
+          case 2: 
+            recievedRgb.red = recievedInt;
+            break;
+          case 3: 
+            recievedRgb.green = recievedInt;
+            break;
+          case 4: 
+            recievedRgb.blue = recievedInt;
+            break;          
+          case 5:
+            stripMode.effect = static_cast<LedEffect>(recievedInt);
+            break;
+        }
+        memset(recievedChars, 0, strlen(recievedChars));
+        recievedCharsLength = 0;
+      } else if (recievedByte == *"\n") {
+        stripMode.color = recievedRgb;
+        memset(recievedChars, 0, strlen(recievedChars));
+      }
+    };
+    
+    delete[] recievedChars;
+    recievedCharsLength = 0;
   }
-  
-  Serial.println();
 }
