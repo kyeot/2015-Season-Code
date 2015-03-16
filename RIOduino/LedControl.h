@@ -8,4 +8,7 @@ struct RGB {
   int blue;
 };
 
+const RGB eotBlue = {35, 0, 250};
+const RGB eotRed = {250, 0, 0};
+
 #endif
