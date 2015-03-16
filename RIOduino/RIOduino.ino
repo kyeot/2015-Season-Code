@@ -110,23 +110,39 @@ void i2cReceived(int bitsReceived) {
   *  and assign it to the ledMode global */
   if (registerId == 42) {
  
+    //Set up variables to keep track of incoming data
+    //Total semicolon-delimeted integers recieved so far
     int integerCount = 0;
+    //Array to store charecters since the last semicolor or message beggining
     char* recievedChars = new char[Wire.available()+1];
+    //Current length of the recievedChars array
     int recievedCharsLength = 0;
     
+    /* New RGB struct to store incoming RGB data 
+    until it is assigned to the LedMode global */
     RGB recievedRgb = {0, 0, 0};
-        
+    
+    //while data is availible, process data and add it to the LedMode global    
     while(Wire.available()) {
+      //Read the next availible byte and store it for future use
       char recievedByte = Wire.read();
       
+      /* Add the recieved yte to the end of the recievedChars array, 
+      and iterate the array length variable */
       recievedChars[recievedCharsLength] = recievedByte;
       recievedCharsLength++;
-            
+      
+      //Depending on what the specific byte is, process the byte and deliver data      
       if (recievedByte == *";") {
+        /* If the byte is a semicolon, all of the bytes for the 
+        currently-being-read integer have been stored - so, 
+        increase the count of total integers recieved */
         integerCount++;
         
+        //Parse the string into an integer
         int recievedInt = atoi(recievedChars);
         
+        //Depending on which integer it is, store the data in different places
         switch (integerCount) {
           case 1:
             stripMode.intensity = recievedInt;
@@ -144,14 +160,23 @@ void i2cReceived(int bitsReceived) {
             stripMode.effect = static_cast<LedEffect>(recievedInt);
             break;
         }
+        
+        /* Clear the recievedChars array for future 
+        use, and set it's length to 0 */
         memset(recievedChars, 0, strlen(recievedChars));
         recievedCharsLength = 0;
+        
       } else if (recievedByte == *"\n") {
+        /* If end-of-line character is recieved, the message is 
+        over - store the RGB in the LedMode global and
+        clear the recieved chars array */
         stripMode.color = recievedRgb;
         memset(recievedChars, 0, strlen(recievedChars));
       }
     };
     
+    /* Once all data is processed, delete the dynamic array
+    storing recieved chars and set it's length to 0 */
     delete[] recievedChars;
     recievedCharsLength = 0;
   }
