@@ -2,11 +2,11 @@
 <Project Type="Project" LVVersion="14008000">
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
 	<Property Name="NI.Project.Description" Type="Str"></Property>
-	<Property Name="varPersistentID:{2235D071-C351-48DD-8612-CF272B1D55D2}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/set</Property>
-	<Property Name="varPersistentID:{88CC6361-4F5D-467D-A753-FAA6DE52C641}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/error in</Property>
-	<Property Name="varPersistentID:{8B7C1F22-EEFB-43B7-8654-9BFD3CDD13AE}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/output</Property>
-	<Property Name="varPersistentID:{BE460E3F-C519-443B-BE94-832C498B680F}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/error out</Property>
-	<Property Name="varPersistentID:{F330A5A9-BDD9-4B30-84BF-40F13E859122}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/reset</Property>
+	<Property Name="varPersistentID:{16458946-39ED-4136-88C2-B1808C485EF0}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/error out</Property>
+	<Property Name="varPersistentID:{7E97E831-D31D-4896-865C-17360F7966F9}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/error in</Property>
+	<Property Name="varPersistentID:{AC92E220-4273-49E0-A707-107B1ADA871A}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/output</Property>
+	<Property Name="varPersistentID:{B2EB8340-A6D3-468A-BCCD-E53FCB4AB9A1}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/set</Property>
+	<Property Name="varPersistentID:{D965DD8F-8FAE-461A-9455-DBE7E8B8B48F}" Type="Ref">/Target/Team Code/Teleop.vi/SR Bistable/reset</Property>
 	<Item Name="My Computer" Type="My Computer">
 		<Property Name="NI.SortType" Type="Int">3</Property>
 		<Property Name="server.app.propertiesEnabled" Type="Bool">true</Property>
@@ -744,6 +744,7 @@ AddOutputFilter chunkFilter
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 			<Item Name="Rising Edge Detect.vi" Type="VI" URL="../Utilities/Rising Edge Detect.vi"/>
+			<Item Name="Scale Values.vi" Type="VI" URL="../Utilities/Scale Values.vi"/>
 			<Item Name="Vision Alignment.vi" Type="VI" URL="../Utilities/Vision Alignment.vi"/>
 			<Item Name="Vison processing code.vi" Type="VI" URL="../Utilities/Vison processing code.vi"/>
 		</Item>
@@ -760,11 +761,11 @@ AddOutputFilter chunkFilter
 				<Property Name="Bld_compilerOptLevel" Type="Int">0</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
-				<Property Name="Bld_localDestDir" Type="Path">/C/Users/EOTTeam/Desktop/Builds</Property>
+				<Property Name="Bld_localDestDir" Type="Path">/C/Users/jaked_000/Desktop/build</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{980EAAB3-3632-4C6E-8261-281A41A3B1DC}</Property>
 				<Property Name="Bld_targetDestDir" Type="Path">/home/lvuser/natinst/bin</Property>
-				<Property Name="Bld_version.build" Type="Int">3</Property>
+				<Property Name="Bld_version.build" Type="Int">7</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">startup.rtexe</Property>
 				<Property Name="Destination[0].path" Type="Path">/home/lvuser/natinst/bin/startup.rtexe</Property>
@@ -774,7 +775,7 @@ AddOutputFilter chunkFilter
 				<Property Name="Destination[1].path" Type="Path">/home/lvuser/natinst/bin/data</Property>
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{D19E4D4F-22F5-4465-8741-1035803B01FF}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{83DD90F7-0AFD-438B-83AF-2A9088D22101}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/Target/Robot Main.vi</Property>
