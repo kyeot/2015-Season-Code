@@ -1,0 +1,77 @@
+Arduino IDE Program
+
+    Global NeoPixel strip object
+    Global ledMode object
+
+    Setup:
+    Instantiate 2wire (I2C), create LED strip instance
+    Loop:
+    Sets LED color, intesity, and effect based on ledMode global
+    Wire.onReceive(
+        Read data from I2C bus and assign it to ledMode object
+    )
+
+    LEDStrip Class
+        Extends NEOPixels
+        Relies on each effect method to be run continuously, and checks time between calls to determine how to set lights
+        Uses sine wave to scale values during fade
+        Variables
+            Strip length (accessible from superclass)
+        Methods
+            Public:
+                //Set all lights in strip to one color
+                void setStrip(Color color);
+                //Set a series of lights to one color
+                void setSegment(int startLed, int endLed, Color color);
+                //Set a single light to a color
+                void setLight(int led, Color color);
+                //Blink all lights in strip with same color
+                void iteratePulseStrip(int delay, bool fade, Color color);
+                //Chase lights down led strip
+                void iterateSimpleChase(int delay, int tailLength, bool fade, Color color);
+                //Rainbow pattern across all lights
+                void iterateRainbow(int delay, bool fade);
+                //Cycle rainbow light colors throuhgout chase
+                void iterateRainbowChase(int delay, int tailLength, bool fade);
+                //Send random colors to each light
+                void iterateRandom(int delay, bool fade);
+            Private:
+                /*  Takes a value from 0 to 1 and returns a color corresponding
+                *   to the input value's position along a colorspectrum */
+                Color colorSpectrum(float proportion);
+                /*  Takes value from 0 to 1 and returns value corresponding to
+                *   the inputs placement on a sine wave */
+                int mapToWave(float proportion);
+
+
+I2C Comm
+    I2C Registry from LabView = 42
+    Registry ignored by Arduino
+    Message Standard:
+        [Intensity (1 int)];[Color (1 int)];[Effect (1 int)]
+        [Intensity]: 0-255
+        [Color]: Packed RGB int value
+        [Effect]:
+            //Strip driven only by intensity and color values
+            0 = Static Color
+            //Blink strip with color and max intensity from I2C message
+            100 = Slow Blink
+            101 = Fast Blink
+            102 = Slow Pulse
+            103 = Fast Pulse
+            //Chase lights down strip with intesity and color from message
+            200 = Simple Chase
+            201 = Chase with Tail
+            202 = Smooth Simple Chase
+            203 = Smooth Chase with Tail
+            //Cycle through rainbow colors with intensity from message
+            300 = Rainbow
+            301 = Rainbow Chase
+            //Randomly choose color and/or intensity values for individual lights,
+            //and obtain necessary values from message
+            400 = Blink Full Random
+            401 = Fade Full Random
+            402 = Blink Random Intensity
+            403 = Fade Random Intensity
+            404 = Blink Random Color
+            405 = Fade Random Color
