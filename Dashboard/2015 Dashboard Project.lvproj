@@ -23,6 +23,9 @@
 		<Item Name="TypeDefs" Type="Folder">
 			<Item Name="DStoPCPacketTypeDef.ctl" Type="VI" URL="../DStoPCPacketTypeDef.ctl"/>
 		</Item>
+		<Item Name="Vision Utilities" Type="Folder" URL="../Vision Utilities">
+			<Property Name="NI.DISK" Type="Bool">true</Property>
+		</Item>
 		<Item Name="Dashboard Main.vi" Type="VI" URL="../Dashboard Main.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
@@ -222,7 +225,6 @@
 			</Item>
 			<Item Name="lvinput.dll" Type="Document" URL="/&lt;resource&gt;/lvinput.dll"/>
 			<Item Name="Prepare Joystick Data for Displays.vi" Type="VI" URL="../Prepare Joystick Data for Displays.vi"/>
-			<Item Name="Vision VI.vi" Type="VI" URL="../../Robot/Vision Utilities/Vision VI.vi"/>
 			<Item Name="Rising Edge Detect.vi" Type="VI" URL="../../Robot/Utilities/Rising Edge Detect.vi"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
